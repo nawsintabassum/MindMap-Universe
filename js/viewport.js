@@ -1,0 +1,4 @@
+export const clamp=(v,min,max)=>Math.max(min,Math.min(max,v));
+export function screenToWorld(px,py,view,rect){return {x:(px-rect.left-view.x)/view.scale,y:(py-rect.top-view.y)/view.scale};}
+export function zoomAt(view,scale,px,py){const next=clamp(scale,.25,2.5),wx=(px-view.x)/view.scale,wy=(py-view.y)/view.scale;return {x:px-wx*next,y:py-wy*next,scale:next};}
+export function fitNodes(nodes,width,height){if(!nodes.length)return {x:width/2,y:height/2,scale:1};const minX=Math.min(...nodes.map(n=>n.x)),minY=Math.min(...nodes.map(n=>n.y)),maxX=Math.max(...nodes.map(n=>n.x+n.w)),maxY=Math.max(...nodes.map(n=>n.y+n.h));const pad=100,bw=Math.max(1,maxX-minX),bh=Math.max(1,maxY-minY),scale=clamp(Math.min((width-pad*2)/bw,(height-pad*2)/bh),.25,1.5);return {x:(width-bw*scale)/2-minX*scale,y:(height-bh*scale)/2-minY*scale,scale};}

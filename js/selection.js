@@ -1,0 +1,1 @@
+export function selectionSummary(map,selected){const ids=new Set(selected),nodes=map.nodes.filter(n=>ids.has(n.id));const edges=map.edges.filter(e=>ids.has(e.source)||ids.has(e.target));return {nodes,edges,connections:edges.length};}

@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0b0d14">
+  <meta name="description" content="MindMap Universe — Connect Your Ideas. Discover New Possibilities.">
+  <title>MindMap Universe — Visual Knowledge Garden</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/canvas.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+<div class="app-shell" id="appShell">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand"><div class="brand-mark"><span></span><span></span><span></span></div><div><strong>MindMap <em>Universe</em></strong><small>VISUAL KNOWLEDGE GARDEN</small></div></div>
+    <button class="workspace-switcher" id="workspaceBtn"><span class="workspace-dot"></span><span><b>Personal workspace</b><small>Your knowledge space</small></span><span class="chevron">⌄</span></button>
+    <button class="primary-button full" id="newMapBtn"><span>＋</span> New map <kbd>⌘ K</kbd></button>
+    <nav class="main-nav" aria-label="Main navigation">
+      <button class="nav-item active" data-view="all"><span class="nav-icon">◈</span> All maps <span class="nav-count" id="mapCount">1</span></button>
+      <button class="nav-item" data-view="recent"><span class="nav-icon">◷</span> Recent maps</button>
+      <button class="nav-item" data-view="favorites"><span class="nav-icon">☆</span> Favorites</button>
+      <button class="nav-item" data-view="templates"><span class="nav-icon">▦</span> Templates</button>
+      <button class="nav-item" data-view="trash"><span class="nav-icon">⌑</span> Trash</button>
+    </nav>
+    <div class="sidebar-section-title"><span>YOUR MAPS</span><button id="sidebarAddMap" title="Create map">＋</button></div>
+    <div class="map-list" id="mapList"></div>
+    <div class="sidebar-bottom">
+      <div class="storage-card"><div class="storage-orbit">✳</div><div><b>Your ideas, connected.</b><small>Private and stored on this device.</small></div></div>
+      <button class="nav-item" id="settingsBtn"><span class="nav-icon">⚙</span> Settings</button>
+      <div class="profile-row"><div class="avatar">M</div><div><b>My workspace</b><small>Local account</small></div><button id="profileMenu" class="icon-button" aria-label="Profile options">•••</button></div>
+    </div>
+  </aside>
+  <main class="main-area">
+    <header class="topbar">
+      <div class="top-left"><button class="icon-button mobile-menu" id="sidebarToggle" aria-label="Toggle sidebar">☰</button><div class="breadcrumbs"><span>Workspace</span><span class="crumb-sep">/</span><strong id="breadcrumbTitle">Untitled map</strong></div><span class="save-status"><i id="saveDot"></i><span id="saveStatus">Saved</span></span></div>
+      <div class="top-actions">
+        <button class="tool-button" id="undoBtn" title="Undo (Ctrl/Cmd+Z)" disabled>↶</button><button class="tool-button" id="redoBtn" title="Redo (Ctrl/Cmd+Shift+Z)" disabled>↷</button>
+        <div class="top-divider"></div>
+        <button class="tool-button search-trigger" id="searchBtn"><span>⌕</span><span>Search</span><kbd>⌘ F</kbd></button>
+        <button class="tool-button" id="connectBtn" title="Connect nodes">⌁ <span class="hide-small">Connect</span></button>
+        <button class="primary-button add-node-btn" id="addNodeBtn">＋ <span>Add node</span></button>
+        <div class="dropdown-wrap"><button class="tool-button" id="exportBtn">↥ <span class="hide-small">Export</span>⌄</button><div class="dropdown-menu" id="exportMenu"><button data-export="map-json">Export map as JSON</button><button data-export="workspace-json">Export workspace backup</button><button data-export="svg">Export as SVG</button><button data-export="import">Import JSON…</button></div></div>
+        <button class="tool-button" id="themeBtn" title="Toggle theme">☼</button>
+        <button class="icon-button" id="helpBtn" title="Keyboard shortcuts">?</button>
+      </div>
+    </header>
+    <section class="workspace">
+      <div class="canvas-toolbar">
+        <div class="map-title-wrap"><input id="mapTitleInput" class="map-title" value="Learning Universe" aria-label="Map title"><span class="title-edit">✎</span><button class="icon-button favorite-toggle" id="favoriteBtn" title="Toggle favorite">☆</button></div>
+        <div class="canvas-mode-label"><span class="live-dot"></span><span id="modeLabel">Canvas ready</span></div>
+        <div class="canvas-tools"><button class="tool-button small-tool" id="zoomOutBtn" title="Zoom out">−</button><span id="zoomLabel" class="zoom-label">100%</span><button class="tool-button small-tool" id="zoomInBtn" title="Zoom in">＋</button><button class="tool-button small-tool" id="fitBtn" title="Fit to content">⛶ <span class="hide-small">Fit</span></button><button class="tool-button small-tool" id="miniMapBtn" title="Toggle mini-map">▧</button></div>
+      </div>
+      <div class="canvas-stage" id="canvasStage">
+        <div class="canvas-grid"></div>
+        <svg id="graphSvg" class="graph-svg" xmlns="http://www.w3.org/2000/svg" aria-label="Interactive mind map canvas">
+          <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#8b83bd"/></marker><filter id="softGlow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+          <g id="viewportGroup"><g id="edgeLayer"></g><g id="nodeLayer"></g><g id="previewLayer"></g></g>
+          <g id="selectionLayer"></g>
+        </svg>
+        <div class="canvas-empty" id="canvasEmpty" hidden><div class="empty-orb">✳</div><h2>A universe of ideas starts here</h2><p>Add your first node and begin connecting what you know.</p><button class="primary-button" id="emptyAddBtn">＋ Create your first node</button></div>
+        <div class="canvas-hint"><span class="hint-key">SPACE</span> + drag to pan <span class="hint-separator">·</span> Scroll to zoom <span class="hint-separator">·</span> <span class="hint-key">N</span> new node</div>
+        <div class="mini-map-panel" id="miniMapPanel"><div class="mini-map-header"><span>OVERVIEW</span><button id="miniMapClose" aria-label="Hide mini-map">×</button></div><svg id="miniMapSvg" viewBox="0 0 200 130" aria-label="Mini map"></svg></div>
+        <div class="canvas-bottom-left"><span class="status-pill"><i></i><span id="selectedCount">0 selected</span></span><span class="status-pill" id="connectionCount">0 connections</span></div>
+      </div>
+    </section>
+  </main>
+  <aside class="inspector" id="inspector">
+    <div class="inspector-head"><div><span class="eyebrow">PROPERTIES</span><h3>Node details</h3></div><button class="icon-button" id="inspectorClose" title="Collapse panel">›</button></div>
+    <div id="inspectorContent" class="inspector-content"><div class="inspector-empty"><div class="empty-icon">◇</div><b>Select a node</b><p>Choose any idea on your canvas to inspect and edit its details.</p></div></div>
+    <div class="inspector-footer"><span>LOCAL STORAGE</span><span class="privacy-indicator">● Private</span></div>
+  </aside>
+</div>
+<div class="toast-stack" id="toastStack" aria-live="polite"></div>
+<div class="modal-backdrop" id="modalBackdrop" hidden><section class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal-head"><div><span class="eyebrow" id="modalEyebrow">WORKSPACE</span><h2 id="modalTitle">Create a node</h2></div><button class="icon-button" id="modalClose" aria-label="Close">×</button></div><form id="modalForm"><div id="modalBody"></div><div class="modal-actions"><button type="button" class="secondary-button" id="modalCancel">Cancel</button><button type="submit" class="primary-button" id="modalSubmit">Create node</button></div></form></section></div>
+<div class="search-overlay" id="searchOverlay" hidden><div class="search-dialog"><div class="search-input-row"><span>⌕</span><input id="globalSearch" placeholder="Search nodes, tags, links, maps…" autocomplete="off"><kbd>ESC</kbd></div><div class="search-filter-row"><span>Search this workspace</span><select id="searchTypeFilter"><option value="all">All types</option><option>Idea</option><option>Note</option><option>Topic</option><option>Question</option><option>Resource</option><option>Task</option><option>Reference</option></select></div><div class="search-results" id="searchResults"><div class="search-empty">Start typing to find an idea.</div></div><div class="search-footer"><span>↑↓ to navigate</span><span>Enter to open · Esc to close</span></div></div></div>
+<input type="file" id="importFile" accept=".json,application/json" hidden>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
